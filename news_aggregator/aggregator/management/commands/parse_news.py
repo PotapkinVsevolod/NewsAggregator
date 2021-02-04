@@ -20,11 +20,12 @@ def _parse_news(last_news_titles):
             link = item.find('a', 'storylink')['href']
             if title not in last_news_titles:
                 News.objects.create(title=title, link=link).save()
+        print('Статьи загружены')
         time.sleep(PAUSE)
 
 
 def _get_last_news_titles_from_db():
-    last_news = News.objects.order_by('-id')[0:31]
+    last_news = News.objects.order_by('-id')[:31]
     last_news_titles = []
     for item in last_news:
         last_news_titles.append(item.title)
