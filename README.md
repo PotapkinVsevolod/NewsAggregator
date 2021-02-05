@@ -1,5 +1,6 @@
 # News Aggregator
 
+![GitHub main code](https://img.shields.io/github/languages/top/PotapkinVsevolod/NewsAggregator)
 ![GitHub repo size](https://img.shields.io/github/repo-size/potapkinvsevolod/newsaggregator)
 
 News Aggregator - это приложение, написанное на Django/Python для парсинга сайта Hacker News на предмет статей, хранение информации о статьях в базе данных (БД)
@@ -59,8 +60,3 @@ curl -X GET 'http://localhost:8000/posts?order=title&offset=5&limit=10'
 ## Контакты
 
 Если возникли какие-либо вопросы, вы можете со мной связаться, написав на <potapkinvsevolod@gmail.com>.
-
-## Лицензия
-
-Программа поставляется под лицензией GNU GPLv3
-
