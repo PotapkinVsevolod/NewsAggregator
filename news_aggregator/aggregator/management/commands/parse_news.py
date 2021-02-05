@@ -3,6 +3,7 @@ import time
 import bs4
 import requests
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 from aggregator.models import News
 
@@ -20,7 +21,7 @@ def _parse_news(last_news_titles):
             link = item.find('a', 'storylink')['href']
             if title not in last_news_titles:
                 News.objects.create(title=title, link=link).save()
-        print('Статьи загружены')
+        print(f'News downloads in {timezone.now()}.')
         time.sleep(PAUSE)
 
 

@@ -9,24 +9,32 @@ ORDER_CHOICE = ('id', '-id', 'title', '-title', 'link', '-link', 'created_at', '
 
 class PostsView(View):
     def get(self, request):
-
         order = self.request.GET.get('order', 'id')
         if order not in ORDER_CHOICE:
-            return HttpResponse(f'Ошибка, order может принимать следующие значения - {ORDER_CHOICE}')
+            return HttpResponse(f'{order} not in ordering methods.\n')
 
-        offset = self.request.GET.get('offset', 0)
-        if not offset.isdigit() or int(offset) not in range(News.objects.count()):
-            return HttpResponse(f'Ошибка, offset должен принимать положительные целочисленные '
-                          f'значения, не более чем {News.objects.count() - 5}')
-        else:
-            offset = int(offset)
+        try:
+            offset = int(self.request.GET.get('offset', 0))
+        except Exception as err:
+            return HttpResponse(f'{err}\n')
 
-        limit = self.request.GET.get('limit', 5)
-        if not limit.isdigit() or int(limit) not in range(1, News.objects.count() - offset):
-            return HttpResponse(f'Ошибка, limit может принимать положительные целочисленные '
-                                f'значения, не более чем {News.objects.count() - offset}')
-        else:
-            limit = int(limit)
+        if offset < 0:
+            return HttpResponse('Offset can only take a positive value.\n')
+        elif offset not in range(News.objects.count()):
+            return HttpResponse(f'Value out of range. Maximum possible '
+                                f'value is {News.objects.count() - 5}.\n')
 
-        items_query = News.objects.order_by(order)[offset:][:limit].values('id', 'title', 'link', 'created_at')
-        return JsonResponse(list(items_query), safe=False)
+        try:
+            limit = int(self.request.GET.get('limit', 5))
+        except Exception as err:
+            return HttpResponse(f'{err}\n')
+
+        if limit < 1:
+            return HttpResponse('Limit can only take a positive value more than one.')
+        elif limit not in range(News.objects.count()):
+            return HttpResponse(f'Value out of range. Maximum possible '
+                                f'value is {News.objects.count() - offset}.\n')
+
+        news = News.objects.order_by(order)[offset:][:limit].values()
+
+        return JsonResponse(list(news), safe=False)
