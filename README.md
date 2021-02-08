@@ -47,7 +47,15 @@ python manage.py migrate
 ```
 python manage.py parse_news
 ```
-По умолчанию парсер собирает данные сайта раз в час, но вы можете поменять тайминг, переопределив константу PAUSE (в секундах) в news_aggregator/aggregator/management/commands/parse_news.py.
+По умолчанию парсер собирает данные сайта раз в час, но вы можете поменять тайминг следующим образом:
+```
+python manage.py parse_news -p=1000
+```
+или
+```
+python manage.py parse_news --pause=1000
+```
+где 1000 - время в секундах
 
 Сервер API можно запустить командой:
 ```
