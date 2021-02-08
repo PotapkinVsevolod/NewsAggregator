@@ -9,10 +9,13 @@ ORDER_CHOICE = ('id', '-id', 'title', '-title', 'link', '-link', 'created_at', '
 
 class PostsView(View):
     def get(self, request):
+
+        # Definition of order.
         order = self.request.GET.get('order', 'id')
         if order not in ORDER_CHOICE:
             return HttpResponse(f'{order} not in ordering methods.\n')
 
+        # Definition of offset.
         try:
             offset = int(self.request.GET.get('offset', 0))
         except Exception as err:
@@ -24,6 +27,7 @@ class PostsView(View):
             return HttpResponse(f'Value out of range. Maximum possible '
                                 f'value is {News.objects.count() - 5}.\n')
 
+        # Definition of limit.
         try:
             limit = int(self.request.GET.get('limit', 5))
         except Exception as err:
@@ -35,6 +39,7 @@ class PostsView(View):
             return HttpResponse(f'Value out of range. Maximum possible '
                                 f'value is {News.objects.count() - offset}.\n')
 
+        # Request of news from database.
         news = News.objects.order_by(order)[offset:][:limit].values()
 
         return JsonResponse(list(news), safe=False)
