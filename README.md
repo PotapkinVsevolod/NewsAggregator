@@ -17,7 +17,7 @@ News Aggregator - это приложение, написанное на Django/
 Для установки News Aggregator, клонируйте репозиторий с github с помощью ссылки:
 
 ```
-clone https://github.com/PotapkinVsevolod/NewsAggregator.git
+git clone https://github.com/PotapkinVsevolod/NewsAggregator.git
 ```
 Для работы приложения необходимо установить все необходимые зависимости из файла requirements.txt.
 
